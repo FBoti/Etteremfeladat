@@ -9,4 +9,17 @@
         public DateTime UpdateTime { get; set; }
         public int VendegId { get; set; }
     }
+
+    public class CreateRendelesDto
+    {
+        public string Dish { get; set; } = string.Empty;
+        public string? Description { get; set; }
+        public int VendegId { get; set; }
+    }
+
+    public class UpdateRendelesDto
+    {
+        public string Dish { get; set; } = string.Empty;
+        public string? Description { get; set; }
+    }
 }
