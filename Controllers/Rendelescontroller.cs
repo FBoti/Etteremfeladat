@@ -1,5 +1,4 @@
 ﻿using Etterem.Models;
-using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Mvc;
 using MySqlConnector;
 
@@ -241,6 +240,31 @@ namespace Etterem.Controllers
             }
 
             connection.Close();
+            return data;
+        }
+        [HttpGet("osszesRendelesSzama")]
+        public object GetOsszesRendelesSzama()
+        {
+            var connection = new MySqlConnection(ConnectionString);
+            connection.Open();
+
+            string sql = @"SELECT COUNT(*) FROM `rendeles`;";
+            var cmd = new MySqlCommand(sql, connection);
+
+            var datareader = cmd.ExecuteReader();
+            object? data = null;
+
+            if (datareader.Read() == true)
+            {
+                int count = datareader.GetInt32(0);
+                data = new { message = "Sikeres lekérdezés.", result = new { osszesRendeles = count }};
+            }
+
+            connection.Close();
+            if (data == null)
+            {
+                data = new { message = "Hiba történt a lekérdezés során.", result = "" };
+            }
             return data;
         }
 
