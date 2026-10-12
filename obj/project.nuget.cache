@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "dgSpecHash": "zTXnK/f+1gc=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\farkasb\\Desktop\\2627\\OOPAlapok\\webapi\\Etterem\\Etterem\\Etterem.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\farkasb\\.nuget\\packages\\microsoft.aspnetcore.openapi\\10.0.12\\microsoft.aspnetcore.openapi.10.0.12.nupkg.sha512",
+    "C:\\Users\\farkasb\\.nuget\\packages\\microsoft.openapi\\2.12.0\\microsoft.openapi.2.12.0.nupkg.sha512",
+    "C:\\Users\\farkasb\\.nuget\\packages\\mysqlconnector\\2.6.2\\mysqlconnector.2.6.2.nupkg.sha512"
+  ],
+  "logs": []
+}
