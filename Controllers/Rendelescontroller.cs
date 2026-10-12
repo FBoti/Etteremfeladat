@@ -267,6 +267,31 @@ namespace Etterem.Controllers
             }
             return data;
         }
+        [HttpGet("vendegRendeleseinekSzama")]
+        public object GetVendegRendeleseinekSzama(int vendegId)
+        {
+            var connection = new MySqlConnection(ConnectionString);
+            connection.Open();
 
+            string sql = @"SELECT COUNT(*) FROM `rendeles` WHERE `vendegId` = @vendegId;";
+            var cmd = new MySqlCommand(sql, connection);
+            cmd.Parameters.AddWithValue("@vendegId", vendegId);
+
+            var datareader = cmd.ExecuteReader();
+            object? data = null;
+
+            if (datareader.Read() == true)
+            {
+                int count = datareader.GetInt32(0);
+                data = new { message = "Sikeres lekérdezés.", result = new { vendegId = vendegId, rendeleseikSzama = count } };
+            }
+
+            connection.Close();
+            if (data == null)
+            {
+                data = new { message = "Hiba történt a lekérdezés során.", result = "" };
+            }
+            return data;
+        }
     }
 }
