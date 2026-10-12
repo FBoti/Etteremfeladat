@@ -127,6 +127,27 @@ namespace Etterem.Controllers
 
             return new { message = "Sikeres törlés.", result = "" };
         }
+        [HttpPut]
+        public object UpdateRendeles([FromQuery] int id, [FromBody] UpdateRendelesDto updateRendelesDto)
+        {
+            var connection = new MySqlConnection(ConnectionString);
 
+            connection.Open();
+
+            var sql = @"UPDATE `rendeles` SET `dish`=@dish, `description`=@description, `updateTime`=@updateTime WHERE `id` = @id;";
+
+            var cmd = new MySqlCommand(sql, connection);
+
+            cmd.Parameters.AddWithValue("@dish", updateRendelesDto.Dish);
+            cmd.Parameters.AddWithValue("@description", updateRendelesDto.Description);
+            cmd.Parameters.AddWithValue("@updateTime", DateTime.Now);
+            cmd.Parameters.AddWithValue("@id", id);
+
+            cmd.ExecuteNonQuery();
+
+            connection.Close();
+
+            return new { message = "Sikeres frissítés", result = updateRendelesDto };
+        }
     }
 }
