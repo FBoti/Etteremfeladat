@@ -149,5 +149,36 @@ namespace Etterem.Controllers
 
             return new { message = "Sikeres frissítés", result = updateRendelesDto };
         }
+        [HttpGet("vendegAdatai")]
+        public object GetVendegAdatai(int vendegId)
+        {
+            var connection = new MySqlConnection(ConnectionString);
+            connection.Open();
+
+            string sql = @"SELECT `name`, `email` FROM `vendeg` WHERE `id` = @id;";
+            var cmd = new MySqlCommand(sql, connection);
+            cmd.Parameters.AddWithValue("@id", vendegId);
+
+            var datareader = cmd.ExecuteReader();
+            object? data = null;
+
+            if (datareader.Read() == true)
+            {
+                var vendegDto = new VendegAdataiDto
+                {
+                    Name = datareader.GetString(0),
+                    Email = datareader.GetString(1)
+                };
+
+                data = new { message = "Sikeres lekérdezés.", result = vendegDto };
+            }
+            else
+            {
+                data = new { message = "Nincs ilyen vendég.", result = "" };
+            }
+
+            connection.Close();
+            return data;
+        }
     }
 }
