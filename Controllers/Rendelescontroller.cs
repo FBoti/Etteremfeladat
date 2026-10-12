@@ -1,5 +1,4 @@
 ﻿using Etterem.Models;
-using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Mvc;
 using MySqlConnector;
 
@@ -7,7 +6,7 @@ namespace Etterem.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class BlogController : ControllerBase
+    public class RendelesController : ControllerBase
     {
         public string ConnectionString = "server=localhost;uid=root;password=;database=etterem;";
 
@@ -110,35 +109,6 @@ namespace Etterem.Controllers
             return new { message = "Sikeres felvétel.", result = createRendelesDto };
         }
 
-        [HttpDelete]
-        public object DeleteRendeles(int id)
-        {
-            var connection = new MySqlConnection(ConnectionString);
-
-            connection.Open();
-
-            string sql = @"DELETE FROM `rendeles` WHERE `id` = @id";
-
-            var cmd = new MySqlCommand(sql, connection);
-
-            cmd.Parameters.AddWithValue("@id", id);
-
-            cmd.ExecuteNonQuery();
-
-            connection.Close();
-
-            return new { message = "Sikeres törlés.", result = "" };
-        }
-
-        [HttpPut]
-        public IActionResult UpdateRendeles([FromQuery] int id, [FromBody] UpdateRendelesDto updateRendelesDto)
-        {
-            if (updateRendelesDto == null) return BadRequest();
-            // Optional: if UpdateRendelesDto contains an Id property, validate it:
-            // if (updateRendelesDto.Id != id) return BadRequest("ID mismatch.");
-            // TODO: perform update via repository/service here
-
-            return Ok(new { Id = id, Updated = updateRendelesDto });
-        }
+        
     }
 }
