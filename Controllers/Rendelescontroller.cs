@@ -1,4 +1,5 @@
 ﻿using Etterem.Models;
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Mvc;
 using MySqlConnector;
 
@@ -179,6 +180,69 @@ namespace Etterem.Controllers
 
             connection.Close();
             return data;
+
         }
+        [HttpGet("vendegRendelesei")]
+        public object GetVendegRendelesei(int vendegId)
+        {
+            var connection = new MySqlConnection(ConnectionString);
+            connection.Open();
+
+            string sql = @"SELECT v.name, r.dish, r.description 
+                           FROM `vendeg` v 
+                           LEFT JOIN `rendeles` r ON v.id = r.vendegId 
+                           WHERE v.id = @vendegId;";
+
+            var cmd = new MySqlCommand(sql, connection);
+            cmd.Parameters.AddWithValue("@vendegId", vendegId);
+
+            var datareader = cmd.ExecuteReader();
+            VendegRendeleseiDto? vendegRendelesei = null;
+
+            while (datareader.Read())
+            {
+                if (vendegRendelesei == null)
+                {
+                    vendegRendelesei = new VendegRendeleseiDto
+                    {
+                        Name = datareader.GetString(0),
+                        Rendelesek = new List<RendelesInfo>()
+                    };
+                }
+
+                if (datareader.IsDBNull(1) == false)
+                {
+                    string? description = null;
+
+                    if (datareader.IsDBNull(2) == false)
+                    {
+                        description = datareader.GetString(2);
+                    }
+
+                    var rendelesInfo = new RendelesInfo
+                    {
+                        Dish = datareader.GetString(1),
+                        Description = description
+                    };
+
+                    vendegRendelesei.Rendelesek.Add(rendelesInfo);
+                }
+            }
+
+            object? data = null;
+
+            if (vendegRendelesei != null)
+            {
+                data = new { message = "Sikeres lekérdezés.", result = vendegRendelesei };
+            }
+            else
+            {
+                data = new { message = "Nincs ilyen vendég.", result = "" };
+            }
+
+            connection.Close();
+            return data;
+        }
+
     }
 }

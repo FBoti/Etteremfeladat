@@ -22,4 +22,21 @@
         public string Dish { get; set; } = string.Empty;
         public string? Description { get; set; }
     }
+    public class VendegAdataiDto
+    {
+        public string Name { get; set; } = string.Empty;
+        public string Email { get; set; } = string.Empty;
+    }
+
+    public class VendegRendeleseiDto
+    {
+        public string Name { get; set; } = string.Empty;
+        public List<RendelesInfo> Rendelesek { get; set; } = new List<RendelesInfo>();
+    }
+
+    public class RendelesInfo
+    {
+        public string Dish { get; set; } = string.Empty;
+        public string? Description { get; set; }
+    }
 }
